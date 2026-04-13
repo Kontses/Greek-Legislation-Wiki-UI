@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pip show:*)",
+      "Bash(pip search:*)",
+      "Bash(pip index:*)",
+      "Bash(python -c \"import docling\")"
+    ]
+  }
+}

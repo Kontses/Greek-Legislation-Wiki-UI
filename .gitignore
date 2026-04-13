@@ -1,0 +1,10 @@
+.DS_Store
+Thumbs.db
+.obsidian/workspace.json
+.obsidian/workspace-mobile.json
+node_modules/
+.env
+__pycache__/
+*.pyc
+.venv/
+venv/
