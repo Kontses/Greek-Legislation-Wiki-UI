@@ -30,8 +30,13 @@ function extractExcerpt(content: string, query: string): string {
 export async function searchWiki(query: string): Promise<SearchResult[]> {
   if (!query || query.length < 2) return [];
   
-  const q = query.toLowerCase();
+  // Clean query and extract keywords
+  const cleanQuery = query.toLowerCase().replace(/[.,!?;:()]/g, ' ');
+  const keywords = cleanQuery.split(/\s+/).filter(w => w.length > 2);
+  const numericKeywords = keywords.filter(w => /^\d+$/.test(w));
   
+  if (keywords.length === 0) return [];
+
   // Get all documents
   const laws = getAllLegislation().map(d => ({...d, category: 'legislation'}));
   const entities = getAllDocuments('entities').map(d => ({...d, category: 'entities'}));
@@ -39,27 +44,45 @@ export async function searchWiki(query: string): Promise<SearchResult[]> {
   
   const allDocs = [...laws, ...entities, ...concepts];
   
-  const matches: SearchResult[] = [];
-  
-  for (const doc of allDocs) {
-    const title = doc.frontmatter?.title || doc.id;
-    const fek = doc.frontmatter?.fek_number || '';
+  const scoredMatches = allDocs.map(doc => {
+    const title = (doc.frontmatter?.title || doc.id).toLowerCase();
+    const fek = (doc.frontmatter?.fek_number || '').toLowerCase();
+    const content = doc.content.toLowerCase();
     
-    // Check match
-    if (
-      title.toLowerCase().includes(q) ||
-      fek.toLowerCase().includes(q) ||
-      doc.content.toLowerCase().includes(q)
-    ) {
-      matches.push({
-        id: doc.id,
-        slug: doc.slug,
-        title,
-        type: doc.category === 'legislation' ? (doc.frontmatter?.law_type_el || 'Νομοθεσία') : (doc.category === 'entities' ? 'Φορέας' : 'Έννοια'),
-        excerpt: extractExcerpt(doc.content, q)
-      });
+    let score = 0;
+    
+    // Exact full query match (highest priority)
+    if (content.includes(cleanQuery)) score += 100;
+    if (title.includes(cleanQuery)) score += 150;
+
+    // Numeric keyword match (crucial for laws)
+    for (const num of numericKeywords) {
+      if (title.includes(num)) score += 200;
+      if (fek.includes(num)) score += 200;
+      if (content.includes(num)) score += 50;
     }
-  }
+
+    // Keyword matching
+    for (const word of keywords) {
+      if (title.includes(word)) score += 30;
+      if (fek.includes(word)) score += 30;
+      if (content.includes(word)) score += 10;
+    }
+
+    return { doc, score };
+  })
+  .filter(item => item.score > 0)
+  .sort((a, b) => b.score - a.score);
   
-  return matches.slice(0, 10); // Return top 10
+  return scoredMatches.slice(0, 10).map(item => {
+    const doc = item.doc;
+    const title = doc.frontmatter?.title || doc.id;
+    return {
+      id: doc.id,
+      slug: doc.slug,
+      title,
+      type: doc.category === 'legislation' ? (doc.frontmatter?.law_type_el || 'Νομοθεσία') : (doc.category === 'entities' ? 'Φορέας' : 'Έννοια'),
+      excerpt: extractExcerpt(doc.content, keywords[0] || query)
+    };
+  });
 }
