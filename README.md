@@ -1,79 +1,86 @@
-# Greek Legislation Wiki
+# Greek Legislation Wiki 🏛️
 
-An LLM-maintained personal wiki for Greek legislation. The LLM reads, summarizes, cross-references, and maintains structured markdown pages — you curate sources and ask questions.
+Ένα προηγμένο, αυτοματοποιημένο σύστημα Νομικής Πληροφορικής (Legal Information System) για την ελληνική νομοθεσία, που αξιοποιεί Τεχνητή Νοημοσύνη (LLMs) για την ανάλυση εγγράφων και ένα **Premium B2B web interface** για την εξερεύνηση, οπτικοποίηση και πλοήγηση στον νομικό χάρτη της Ελλάδας.
 
-Built on the [LLM Wiki](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f) pattern.
+---
 
-## Setup
+## 📅 Από το Obsidian στο Next.js (Project Evolution)
 
+Το έργο ξεκίνησε βασισμένο στο αρχικό αποθετήριο [TeoMastro/Greek-Legislation-Wiki](https://github.com/TeoMastro/Greek-Legislation-Wiki), το οποίο ακολουθούσε το μοτίβο του [LLM Wiki](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f). Αρχικά λειτουργούσε ως ένα απλό, στατικό αποθετήριο με αρχεία Markdown που διαχειριζόταν αποκλειστικά από τον χρήστη μέσω του **Obsidian**.
+
+Με τη νεότερη αρχιτεκτονική (v2.0), το project **αναβαθμίστηκε ριζικά**: 
+Κατασκευάστηκε ένα πολυτελές (`Premium B2B`) Web Application πάνω στο υπάρχον αρχείο Markdown, προσθέτοντας εντυπωσιακές διαδραστικές λειτουργίες που ταιριάζουν σε μεγάλες νομικές εταιρείες ή κρατικούς οργανισμούς.
+
+## ✨ Νέα Επαγγελματικά Χαρακτηριστικά (Frontend)
+
+- **Premium UI/UX (Glassmorphism):** Ηχομονωμένη αισθητική "γυαλιού", ρευστά micro-animations και υποστήριξη 2 μοντέρνων χρωματικών παλετών: *Dark Glass* (Κυρίως θέμα) και *Snow Glass* (Light mode).
+- **Διαδραστικός Χάρτης Διασυνδέσεων (Knowledge Graph):** Αυτόματη απόδοση των συσχετίσεων (Wikilinks) ανάμεσα σε Νόμους, Φορείς και Έννοιες με χρήση Force Directed Graph που απαντά στη φυσική.
+- **Οπτικό Timeline (Χρονογραμμή):** Κάθετη, δυναμική χρονογραμμή παρακολούθησης της εξέλιξης των Προεδρικών Διαταγμάτων και Νόμων ιστορικά, κατατμημένη ανά έτος και μήνα.
+- **Smart Document Viewer:** Ενσωματωμένος αναγνώστης Νομοσχεδίων, με αυτόματο *Sticky Table of Contents* το οποίο ελέγχει πού βρίσκεται ο χρήστης καθώς κάνει scroll (Intersection Observer).
+- **Page Transitions:** Ομαλές μεταβάσεις بين των σελίδων και Theme toggling με το View Transitions API (Circular effect).
+- **Ευρετήρια:** Εξειδικευμένες σελίδες Δυναμικής αναζήτησης για *Δημόσιους Φορείς* (Entities) και *Νομικές Έννοιες* (Concepts).
+
+## 🛠 Τεχνολογική Στοίβα (Tech Stack)
+
+### Backend (LLM Pipeline)
+- **Python:** Scripts εξαγωγής δεδομένων.
+- **Docling / OCR:** Μετατροπή PDF εγγράφων ΦΕΚ σε δομημένο Markdown.
+- **LLM/Claude:** Ανάγνωση, σύνθεση και διασύνδεση νέων νομοσχεδίων.
+
+### Frontend (User App)
+- **Next.js 16 (App Router):** Το ταχύτερο React πλαίσιο, ρυθμισμένο με Turbopack.
+- **React Force Graph:** 2D Canvas rendering για το Δίκτυο Εννοιών.
+- **React Markdown / Remark GFM:** Υποστήριξη rendering για την ελληνική γλώσσα και τα Obsidian-style Wikilinks (`[[Nomos]]`).
+- **CSS3 / Glassmorphism:** Χρήση απλής CSS (Vanilla) για μαθηματική ακρίβεια και performance στο styling.
+
+---
+
+## 🚀 Εγκατάσταση και Χρήση
+
+Το σύστημα πλέον διαθέτει δύο αυτόνομα τμήματα: την _εισαγωγή δεδομένων (Backend)_ και την _προβολή δεδομένων (Frontend)_.
+
+### 1. Backend Ingestion & LLM (Προσθήκη νέων Νόμων)
 ```bash
-# Install the PDF parsing dependency
+# Εγκατάσταση απαιτήσεων PDF parsing
 pip install -r scripts/requirements.txt
+
+# Μετατροπή των ΦΕΚ (από raw/ σε raw/parsed/ σε μορφή markdown)
+python scripts/parse_pdfs.py
 ```
+Για ενημέρωση του Wiki, μπορείτε να τρέξετε την εντολή `ingest <filename>` στον LLM AI Assistant σας για να δημιουργήσει τα αρχεία. 
 
-Optionally, open the project in [Obsidian](https://obsidian.md/) for graph view, wikilink navigation, and Dataview queries.
-
-## Usage
-
-### 1. Add a source PDF
-
-Drop a PDF into `raw/` and convert it to markdown:
+### 2. Frontend Application (Εκτέλεση του B2B Web App)
+Βεβαιωθείτε ότι έχετε εγκατεστημένο το Node.js (v18+).
 
 ```bash
-python scripts/parse_pdfs.py                      # convert all new PDFs
-python scripts/parse_pdfs.py raw/some-file.pdf     # convert a specific file
-python scripts/parse_pdfs.py --force               # re-convert all
-python scripts/parse_pdfs.py --ocr                 # enable OCR for scanned documents
+# Μετάβαση στον φάκελο της εφαρμογής
+cd frontend
+
+# Εγκατάσταση εξαρτήσεων
+npm install
+
+# Εκκίνηση τοπικού server (Development mode)
+npm run dev
+```
+Ανοίξτε το `http://localhost:3000` στον browser της επιλογής σας για να απολαύσετε το σύστημα.
+
+## 📂 Αρχιτεκτονική Έργου (Project Structure)
+
+```text
+├── frontend/                # Η Next.js εφαρμογή (B2B Web Dashboard)
+│   ├── src/app/             # Σελίδες (Home, Graph, Timeline, Doc, Entities...)
+│   ├── src/components/      # Reusable React UI Components & Graph engines
+│   └── src/lib/             # Markdown Parsers & Data APIs
+├── raw/                     # Πηγαία PDF ΦΕΚ
+│   └── parsed/              # To Markdown μετά το OCR
+├── wiki/                    # Τα δομημένα, διασυνδεδεμένα δεδομένα (LLM-curated)
+│   ├── legislation/         # Νόμοι ταξινομημένοι ανά έτος
+│   ├── entities/            # Υπουργεία, Οργανισμοί, Πρόσωπα
+│   └── concepts/            # Νομικές Έννοιες και αρχές
+├── scripts/                 # Python εργαλεία
+└── CLAUDE.md                # Οδηγίες για τον LLM agent
 ```
 
-Converted markdown appears in `raw/parsed/`.
-
-### 2. Ingest into the wiki
-
-Tell the LLM:
-
-```
-ingest <filename>
-```
-
-The LLM reads the parsed markdown, discusses key points with you, then creates/updates legislation pages, entity pages, concept pages, source summaries, index, and log.
-
-### 3. Query the wiki
-
-Ask any question. The LLM searches the index, reads relevant pages, and synthesizes an answer with wikilink citations. Results can be filed as analysis pages.
-
-### 4. Lint the wiki
-
-```
-lint
-```
-
-The LLM checks for orphan pages, broken wikilinks, contradictions, missing data, and broken amendment chains.
-
-## Project structure
-
-```
-raw/                     Source PDFs (immutable)
-raw/parsed/              Docling-converted markdown
-wiki/                    LLM-maintained pages
-  legislation/2024/      Laws organized by year
-  sources/               One summary per ingested source
-  entities/              Ministries, courts, persons, institutions
-  concepts/              Legal frameworks, principles
-  analyses/              Filed query results
-  index.md               Auto-maintained catalog
-  log.md                 Chronological activity log
-scripts/                 PDF parsing tooling
-CLAUDE.md                Schema governing LLM behavior
-```
-
-## LLM actions reference
-
-| Command | What it does |
-|---|---|
-| `ingest <file>` | Process a parsed source into wiki pages |
-| `ingest all` | Process all unprocessed files in `raw/parsed/` |
-| `lint` | Health-check the wiki for issues |
-| Any question | Query the wiki and get a cited answer |
-
-See `CLAUDE.md` for full workflow details and conventions.
+## Συγγραφή / Credits
+- **Αρχική Ιδέα & Markdown Pipeline:** [TeoMastro/Greek-Legislation-Wiki](https://github.com/TeoMastro/Greek-Legislation-Wiki)
+- **Frontend App Implementation:** Ενισχύθηκε και επεκτάθηκε ως ένα High-end Web UI Project για νομική χρήση.
