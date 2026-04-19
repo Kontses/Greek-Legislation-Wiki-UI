@@ -1,7 +1,7 @@
 import { getWikiStats, getAllLegislation } from '@/lib/api';
 import Link from 'next/link';
 import { Book, Building2, Scale, ArrowRight, Activity } from 'lucide-react';
-import SearchBar from '@/components/SearchBar';
+import AIAssistant from '@/components/AIAssistant';
 
 export default function Home() {
   const stats = getWikiStats();
@@ -10,10 +10,12 @@ export default function Home() {
   return (
     <main className="dashboard">
       <header className="hero">
-        <div className="hero-content">
+        <div className="hero-content" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
           <h1>Greek Legislation Wiki</h1>
           <p className="hero-subtitle">Legal Knowledge Base & Analysis Platform</p>
-          <SearchBar />
+          <div style={{ marginTop: '2.5rem', width: '100%', maxWidth: '800px', padding: '0 1rem' }}>
+            <AIAssistant />
+          </div>
         </div>
       </header>
 

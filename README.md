@@ -8,8 +8,8 @@
 
 Το έργο ξεκίνησε βασισμένο στο αρχικό αποθετήριο [TeoMastro/Greek-Legislation-Wiki](https://github.com/TeoMastro/Greek-Legislation-Wiki), το οποίο ακολουθούσε το μοτίβο του [LLM Wiki](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f). Αρχικά λειτουργούσε ως ένα απλό, στατικό αποθετήριο με αρχεία Markdown που διαχειριζόταν αποκλειστικά από τον χρήστη μέσω του **Obsidian**.
 
-Με τη νεότερη αρχιτεκτονική (v2.0), το project **αναβαθμίστηκε ριζικά**: 
-Κατασκευάστηκε ένα πολυτελές (`Premium B2B`) Web Application πάνω στο υπάρχον αρχείο Markdown, προσθέτοντας εντυπωσιακές διαδραστικές λειτουργίες που ταιριάζουν σε μεγάλες νομικές εταιρείες ή κρατικούς οργανισμούς.
+Με τη νεότερη αρχιτεκτονική (v2.0), το project **αναβαθμίστηκε ριζικά**:
+Κατασκευάστηκε ένα πολυτελές Web Application πάνω στο υπάρχον αρχείο Markdown, προσθέτοντας εντυπωσιακές διαδραστικές λειτουργίες που ταιριάζουν σε μεγάλες νομικές εταιρείες ή κρατικούς οργανισμούς.
 
 ## ✨ Νέα Επαγγελματικά Χαρακτηριστικά (Frontend)
 
@@ -23,11 +23,13 @@
 ## 🛠 Τεχνολογική Στοίβα (Tech Stack)
 
 ### Backend (LLM Pipeline)
+
 - **Python:** Scripts εξαγωγής δεδομένων.
 - **Docling / OCR:** Μετατροπή PDF εγγράφων ΦΕΚ σε δομημένο Markdown.
 - **LLM/Claude:** Ανάγνωση, σύνθεση και διασύνδεση νέων νομοσχεδίων.
 
 ### Frontend (User App)
+
 - **Next.js 16 (App Router):** Το ταχύτερο React πλαίσιο, ρυθμισμένο με Turbopack.
 - **React Force Graph:** 2D Canvas rendering για το Δίκτυο Εννοιών.
 - **React Markdown / Remark GFM:** Υποστήριξη rendering για την ελληνική γλώσσα και τα Obsidian-style Wikilinks (`[[Nomos]]`).
@@ -37,9 +39,10 @@
 
 ## 🚀 Εγκατάσταση και Χρήση
 
-Το σύστημα πλέον διαθέτει δύο αυτόνομα τμήματα: την _εισαγωγή δεδομένων (Backend)_ και την _προβολή δεδομένων (Frontend)_.
+Το σύστημα πλέον διαθέτει δύο αυτόνομα τμήματα: την *εισαγωγή δεδομένων (Backend)* και την *προβολή δεδομένων (Frontend)*.
 
 ### 1. Backend Ingestion & LLM (Προσθήκη νέων Νόμων)
+
 ```bash
 # Εγκατάσταση απαιτήσεων PDF parsing
 pip install -r scripts/requirements.txt
@@ -47,9 +50,11 @@ pip install -r scripts/requirements.txt
 # Μετατροπή των ΦΕΚ (από raw/ σε raw/parsed/ σε μορφή markdown)
 python scripts/parse_pdfs.py
 ```
-Για ενημέρωση του Wiki, μπορείτε να τρέξετε την εντολή `ingest <filename>` στον LLM AI Assistant σας για να δημιουργήσει τα αρχεία. 
+
+Για ενημέρωση του Wiki, μπορείτε να τρέξετε την εντολή `ingest <filename>` στον LLM AI Assistant σας για να δημιουργήσει τα αρχεία.
 
 ### 2. Frontend Application (Εκτέλεση του B2B Web App)
+
 Βεβαιωθείτε ότι έχετε εγκατεστημένο το Node.js (v18+).
 
 ```bash
@@ -62,6 +67,7 @@ npm install
 # Εκκίνηση τοπικού server (Development mode)
 npm run dev
 ```
+
 Ανοίξτε το `http://localhost:3000` στον browser της επιλογής σας για να απολαύσετε το σύστημα.
 
 ## 📂 Αρχιτεκτονική Έργου (Project Structure)
@@ -82,5 +88,6 @@ npm run dev
 ```
 
 ## Συγγραφή / Credits
+
 - **Αρχική Ιδέα & Markdown Pipeline:** [TeoMastro/Greek-Legislation-Wiki](https://github.com/TeoMastro/Greek-Legislation-Wiki)
 - **Frontend App Implementation:** Ενισχύθηκε και επεκτάθηκε ως ένα High-end Web UI Project για νομική χρήση.
