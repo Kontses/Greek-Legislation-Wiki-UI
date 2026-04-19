@@ -5,7 +5,7 @@ import ForceGraph2D from 'react-force-graph-2d';
 import { useRouter } from 'next/navigation';
 
 export default function KnowledgeGraph({ data }: { data: any }) {
-  const fgRef = useRef<any>();
+  const fgRef = useRef<any>(null);
   const router = useRouter();
   const containerRef = useRef<HTMLDivElement>(null);
   const [dimensions, setDimensions] = useState({ width: 800, height: 600 });
