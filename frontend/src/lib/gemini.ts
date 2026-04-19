@@ -8,9 +8,9 @@ if (!apiKey) {
 
 export const genAI = new GoogleGenerativeAI(apiKey || "");
 
-// Using the latest flash model for speed and cost-effectiveness
+// Using the stable 1.5 flash model for reliability
 export const model = genAI.getGenerativeModel({ 
-  model: "gemini-2.0-flash-exp",
+  model: "gemini-1.5-flash",
   generationConfig: {
     temperature: 0.7,
     topP: 0.8,
