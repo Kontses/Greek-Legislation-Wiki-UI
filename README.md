@@ -45,9 +45,10 @@
 
 ```bash
 # Εγκατάσταση απαιτήσεων PDF parsing
-pip install -r scripts/requirements.txt
+pip install -r frontend/scripts/requirements.txt
 
-# Μετατροπή των ΦΕΚ (από raw/ σε raw/parsed/ σε μορφή markdown)
+# Μετατροπή των ΦΕΚ (τρέξτε το μέσα από τον φάκελο frontend)
+cd frontend
 python scripts/parse_pdfs.py
 ```
 
@@ -77,17 +78,14 @@ npm run dev
 ## 📂 Αρχιτεκτονική Έργου (Project Structure)
 
 ```text
-├── frontend/                # Η Next.js εφαρμογή (B2B Web Dashboard)
+├── frontend/                # Η κεντρική εφαρμογή (B2B Web Dashboard)
 │   ├── src/app/             # Σελίδες (Home, Graph, Timeline, Doc, Entities...)
-│   ├── src/components/      # Reusable React UI Components & Graph engines
-│   └── src/lib/             # Markdown Parsers & Data APIs
-├── raw/                     # Πηγαία PDF ΦΕΚ
-│   └── parsed/              # To Markdown μετά το OCR
-├── wiki/                    # Τα δομημένα, διασυνδεδεμένα δεδομένα (LLM-curated)
-│   ├── legislation/         # Νόμοι ταξινομημένοι ανά έτος
-│   ├── entities/            # Υπουργεία, Οργανισμοί, Πρόσωπα
-│   └── concepts/            # Νομικές Έννοιες και αρχές
-├── scripts/                 # Python εργαλεία
+│   ├── src/components/      # UI Components
+│   ├── src/lib/             # Data APIs
+│   ├── wiki/                # Τα δομημένα δεδομένα (Markdown)
+│   ├── raw/                 # Πηγαία PDF & Parsed markdown
+│   └── scripts/             # Python εργαλεία (PDF parser)
+├── AGENTS.md                # Rules για AI Agents
 └── CLAUDE.md                # Οδηγίες για τον LLM agent
 ```
 

@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
 
-const WIKI_DIR = path.join(process.cwd(), '../wiki');
+const WIKI_DIR = path.join(process.cwd(), 'wiki');
 
 export interface ParsedDocument {
   id: string; // filename without extension
