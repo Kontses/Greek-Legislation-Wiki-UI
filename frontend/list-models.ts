@@ -1,6 +1,10 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
-const apiKey = "AIzaSyBdH4YscnGF4WJxrVGWz7sOOiW7A3SlS04";
+const apiKey = process.env.GEMINI_API_KEY;
+if (!apiKey) {
+  console.error("Σφάλμα: Η μεταβλητή περιβάλλοντος GEMINI_API_KEY δεν έχει οριστεί.");
+  process.exit(1);
+}
 const genAI = new GoogleGenerativeAI(apiKey);
 
 async function list() {
